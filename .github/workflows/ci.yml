@@ -18,9 +18,24 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18.17.1'
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+
+      - name: Cache Cypress binary
+        uses: actions/cache@v4
+        id: cache-cypress
+        with:
+          path: |
+            ~/.cache/Cypress
+            node_modules
+          key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Install Cypress binary (if cache missed)
+        if: steps.cache-cypress.outputs.cache-hit != 'true'
+        run: npx cypress install
 
       - name: Cypress run
         run: npm run cypress:headless
