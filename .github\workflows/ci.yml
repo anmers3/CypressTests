@@ -3,14 +3,25 @@ on: push
   branches:
   - main
   paths:
-  - 'ci.yml'
+  - '**.yml'
+  - '**.json'
+  - '**.js'
 jobs:
   cypress-run:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node.jobs
+      - uses: actions/setup-node@v4
+      - with:
+        node-version: 18.17.1
+
+      - name: Install dependencies
+        run: npm Install
+
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
-        uses: cypress-io/github-action@v6
+        run: npm run cypress:headless
