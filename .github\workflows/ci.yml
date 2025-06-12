@@ -20,8 +20,10 @@ jobs:
 
       - name: Install dependencies
         run: npm Install
+        working-directory: ./.github\workflows
 
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
         run: npm run cypress:headless
+        working-directory: ./.github\workflows
