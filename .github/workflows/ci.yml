@@ -1,6 +1,6 @@
 name: End-to-end tests
 on: 
-push:
+  push:
     branches:
       - main
     paths:
@@ -14,15 +14,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.jobs
-      - uses: actions/setup-node@v4
-      - with:
-        node-version: 18.17.1
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.17.1'
 
       - name: Install dependencies
-        run: npm Install
+        run: npm install
 
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
       - name: Cypress run
         run: npm run cypress:headless
