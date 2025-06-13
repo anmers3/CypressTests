@@ -40,6 +40,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Update package-lock if needed
+        run: |
+          git diff --exit-code package-lock.json || (git add package-lock.json && git commit -m "Update package-lock.json [skip ci]" && git push)
+
       - name: Verify Cypress
         run: npx cypress verify
 
