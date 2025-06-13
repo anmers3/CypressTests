@@ -11,7 +11,7 @@ jobs:
   cypress-run:
     runs-on: ubuntu-24.04
     permissions:
-      contents: write
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,27 +25,25 @@ jobs:
 
       - name: Cache Cypress binary
         uses: actions/cache@v4
-        id: cache-cypress
+        id: cypress-cache
         with:
           path: |
             ~/.cache/Cypress
             node_modules
           key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
-
-      - name: Configure Git
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
+          restore-keys: |
+            ${{ runner.os }}-cypress-
 
       - name: Install dependencies
-        run: npm install
-
-      - name: Update package-lock if needed
         run: |
-          git diff --exit-code package-lock.json || (git add package-lock.json && git commit -m "Update package-lock.json [skip ci]" && git push)
+          npm install
+          # Força a instalação do Cypress se o cache não foi restaurado
+          if [ "${{ steps.cypress-cache.outputs.cache-hit }}" != 'true' ]; then
+            npx cypress install
+          fi
 
-      - name: Verify Cypress
+      - name: Verify Cypress binary
         run: npx cypress verify
 
-      - name: Cypress run
+      - name: Run Cypress tests
         run: npm run cypress:headless
