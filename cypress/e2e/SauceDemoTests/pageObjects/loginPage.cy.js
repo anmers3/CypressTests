@@ -44,7 +44,7 @@ class LoginPage {
         this.clickLoginButton();
     }
 
-    // Asserção específica da página
+    // Asserção específica da mensagem da página
     shouldShowErrorMessage(message) {
         this.errorMessage.should('be.visible').and('contain', message);
     }
