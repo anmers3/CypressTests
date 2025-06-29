@@ -1,7 +1,5 @@
 /// <reference types="cypress" />
 
-const pokemon = "pikachu"
-
 Cypress.Commands.add('getPokemon', (pokemon) => {
   cy.request({
     method: 'GET',

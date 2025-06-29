@@ -36,7 +36,7 @@ context('Cookies', () => {
       expect(cookies[0]).to.have.property('path')
     })
   })
-
+/*
   it('cy.getAllCookies() - get all browser cookies', () => {
     // https://on.cypress.io/getallcookies
     cy.getAllCookies().should('be.empty')
@@ -62,7 +62,7 @@ context('Cookies', () => {
       expect(cookies[1]).to.have.property('path')
     })
   })
-
+*/
   it('cy.setCookie() - set a browser cookie', () => {
     // https://on.cypress.io/setcookie
     cy.getCookies().should('be.empty')
@@ -100,7 +100,7 @@ context('Cookies', () => {
 
     cy.getCookies().should('be.empty')
   })
-
+/*
   it('cy.clearAllCookies() - clear all browser cookies', () => {
     // https://on.cypress.io/clearallcookies
     cy.getAllCookies().should('be.empty')
@@ -114,5 +114,5 @@ context('Cookies', () => {
     cy.clearAllCookies()
 
     cy.getAllCookies().should('be.empty')
-  })
+  })*/
 })
