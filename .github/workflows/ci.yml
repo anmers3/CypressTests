@@ -10,16 +10,22 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-24.04
+    env:
+      # Carrega todas as variáveis necessárias
+      SAUCEDEMO_USERNAME: ${{ secrets.SAUCEDEMO_USERNAME }}
+      SAUCEDEMO_PASSWORD: ${{ secrets.SAUCEDEMO_PASSWORD }}
+      SAUCEDEMO_INVALIDUSERNAME: ${{ secrets.SAUCEDEMO_INVALIDUSERNAME }}
+      SAUCEDEMO_INVALIDPASSWORD: ${{ secrets.SAUCEDEMO_INVALIDPASSWORD }}
     permissions:
       contents: read 
     steps:
       - name: Checkout
-        env:
-          invalidUsername: process.env.SAUCEDEMO_INVALIDUSERNAME,
-          invalidPassword: process.env.SAUCEDEMO_INVALIDPASSWORD,
-          validUsername: process.env.SAUCEDEMO_USERNAME,
-          validPassword: process.env.SAUCEDEMO_PASSWORD
         uses: actions/checkout@v4
+
+      - name: Verify environment variables
+        run: |
+            echo "SAUCEDEMO_USERNAME: ${SAUCEDEMO_USERNAME:0:1}***${SAUCEDEMO_USERNAME: -1}"
+            echo "SAUCEDEMO_PASSWORD: ${SAUCEDEMO_PASSWORD:0:1}***"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
