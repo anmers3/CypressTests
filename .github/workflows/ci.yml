@@ -15,10 +15,10 @@ jobs:
     steps:
       - name: Checkout
         env:
-          SAUCEDEMO_VALIDUSERNAME: ${{ secrets.SAUCEDEMO_VALIDUSERNAME }}
-          SAUCEDEMO_VALIDPASSWORD: ${{ secrets.SAUCEDEMO_VALIDPASSWORD }}
-          SAUCEDEMO_INVALIDUSERNAME: ${{ secrets.SAUCEDEMO_INVALIDUSERNAME }}
-          SAUCEDEMO_INVALIDPASSWORD: ${{ secrets.SAUCEDEMO_INVALIDPASSWORD }}
+          invalidUsername: process.env.SAUCEDEMO_INVALIDUSERNAME,
+          invalidPassword: process.env.SAUCEDEMO_INVALIDPASSWORD,
+          validUsername: process.env.SAUCEDEMO_USERNAME,
+          validPassword: process.env.SAUCEDEMO_PASSWORD
         uses: actions/checkout@v4
 
       - name: Setup Node.js

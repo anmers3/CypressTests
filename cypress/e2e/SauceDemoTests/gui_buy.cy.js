@@ -1,8 +1,7 @@
-import loginPage from '../SauceDemoTests/pageObjects/loginPage.cy';
-import InventoryPage from '../SauceDemoTests/pageObjects/InventoryPage.cy';
+import loginPage from '../SauceDemoTests/pageObjects/loginPage';
+import InventoryPage from '../SauceDemoTests/pageObjects/InventoryPage';
 
-const validUserName = "standard_user"
-const validPassWord = "secret_sauce"
+const { username, password, invalidUserName, invalidPassWord } = Cypress.env();
 
 describe('Com Page Object', () => {
 
@@ -11,7 +10,7 @@ describe('Com Page Object', () => {
     });
 
     it('Should successfully login with valid credentials', () => {
-        loginPage.login(validUserName, validPassWord);
+        loginPage.login(username, password);
         loginPage.shouldShowHomePage('Products'); // Verifica a navegação após o login
 
         cy.get('[data-test="product-sort-container"]').select('Price (low to high)')
