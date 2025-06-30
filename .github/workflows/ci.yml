@@ -11,9 +11,14 @@ jobs:
   cypress-run:
     runs-on: ubuntu-24.04
     permissions:
-      contents: read
+      contents: read 
     steps:
       - name: Checkout
+        env:
+          SAUCEDEMO_VALIDUSERNAME: ${{ secrets.SAUCEDEMO_VALIDUSERNAME }}
+          SAUCEDEMO_VALIDPASSWORD: ${{ secrets.SAUCEDEMO_VALIDPASSWORD }}
+          SAUCEDEMO_INVALIDUSERNAME: ${{ secrets.SAUCEDEMO_INVALIDUSERNAME }}
+          SAUCEDEMO_INVALIDPASSWORD: ${{ secrets.SAUCEDEMO_INVALIDPASSWORD }}
         uses: actions/checkout@v4
 
       - name: Setup Node.js

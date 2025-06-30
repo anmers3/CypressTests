@@ -1,24 +1,32 @@
 // <reference types="Cypress"/>
-// Importa a instância do seu Page Object
-import loginPage from '../SauceDemoTests/pageObjects/loginPage.cy';
+import loginPage from '../SauceDemoTests/pageObjects/loginPage';
+
 
 describe('Sauce Demo Logout Tests', () => {
-
-        beforeEach(() => {
-            cy.visit('/');
-        });
-
-        it('Should successfully login and then logout', () => {
-            loginPage.login('standard_user', 'secret_sauce');
-            loginPage.shouldShowHomePage('Products'); // Verifica a navegação após o login
-
-            // --- MUDANÇA AQUI ---
-            // Adicione um cy.wait() para dar tempo à renderização do menu
-            // 500ms (0.5 segundo) geralmente é suficiente para páginas rápidas como esta
-            cy.wait(500); // Espera 500 milissegundos
-
-            cy.get('[data-test="logout-sidebar-link"]')
-                .click({ force: true }) //Ao forçar o clique, você ignora as verificações de visibilidade e clicabilidade, executando a ação independentemente.
-
-        });
+    beforeEach(() => {
+        cy.visit('/');
     });
+
+    it('Should successfully login and then logout', () => {
+        // 1. Login
+        const { username, password } = Cypress.env();
+        
+        loginPage.login(username, password);
+        loginPage.shouldShowHomePage('Products');
+
+        // 2. Open menu (with verification)
+        cy.get('#react-burger-menu-btn')
+            .should('be.visible')
+            .click();
+
+        // 3. Checkout logout link is visible before click action
+        cy.get('[data-test="logout-sidebar-link"]')
+            .should('be.visible')
+            .and('not.be.disabled')
+            .click();
+
+        // 4. Verification with redirection to login page
+        cy.url().should('include', '/');
+        cy.get('[data-test="login-button"]').should('be.visible');
+    });
+});
